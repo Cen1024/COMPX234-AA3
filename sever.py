@@ -118,7 +118,36 @@ def handle_client(client_socket, tuple_space):
         client_socket.close()
 
 
+def start_server(host='127.0.0.1', port=51234):
+    """
+    Starts the server and begins listening for incoming client connections.
+    """
+    tuple_space = TupleSpace()
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((host, port))
+    server_socket.listen(5)
+    print(f"Server listening on {host}:{port}")
 
+    try:
+        while True:
+            client_socket, addr = server_socket.accept()
+            print(f"Accepted connection from {addr}")
+            tuple_space.client_count += 1
+            client_thread = threading.Thread(target=handle_client, args=(client_socket, tuple_space))
+            client_thread.start()
+
+            # Display stats every 10 seconds
+            while True:
+                time.sleep(10)
+                stats = tuple_space.get_stats()
+                print(f"Current tuple space stats: {stats}")
+
+    finally:
+        server_socket.close()
+
+
+if __name__ == '__main__':
+    start_server()       
         
            
             
