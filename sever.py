@@ -39,4 +39,24 @@ class Tuplespace:
                 return e            
             else:
                 e = 1
-                return e                  
+                return e
+    def startSever(self):
+        with self.lock:
+            num_tuples = len(self.tuples)
+            total_key_size = sum(len(key) for key in self.tuples.keys())
+            total_value_size = sum(len(value) for value in self.tuples.values())
+            avg_tuple_size = (total_key_size + total_value_size) / num_tuples if num_tuples != 0 else 0
+            avg_key_size = total_key_size / num_tuples if num_tuples != 0 else 0
+            avg_value_size = total_value_size / num_tuples if num_tuples != 0 else 0
+            return {
+                'num_tuples': num_tuples,
+                'avg_tuple_size': avg_tuple_size,
+                'avg_key_size': avg_key_size,
+                'avg_value_size': avg_value_size,
+                'client_count': self.client_count,
+                'total_operations': self.total_operations,
+                'read_count': self.read_count,
+                'get_count': self.get_count,
+                'put_count': self.put_count,
+                'error_count': self.error_count
+            }                          
