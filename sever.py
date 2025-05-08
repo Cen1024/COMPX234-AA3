@@ -1,5 +1,6 @@
 import threading
 import socket
+import time
 
 class Tuplespace:
     def __init__(self):
@@ -40,7 +41,7 @@ class Tuplespace:
             else:
                 e = 1
                 return e
-    def startSever(self):
+    def start(self):
         with self.lock:
             num_tuples = len(self.tuples)
             total_key_size = sum(len(key) for key in self.tuples.keys())
@@ -59,4 +60,17 @@ class Tuplespace:
                 'get_count': self.get_count,
                 'put_count': self.put_count,
                 'error_count': self.error_count
-            }                          
+            }
+
+
+
+        
+           
+            
+            
+                
+            
+        
+
+        
+            
